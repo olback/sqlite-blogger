@@ -1,0 +1,148 @@
+/**
+ *  SQLite Blogger by olback @ 2018
+ *  github.com/olback/sqlite-blogger
+ */
+
+ @import url('https://fonts.googleapis.com/css?family=Abel');
+
+:root {
+    --theme-color: #333;
+    --theme-background: #e8e8e8;
+    --h1-font: 'Abel', sans-serif;
+}
+
+html, body {
+    background-color: var(--theme-background);
+    padding: 0;
+    margin: 0;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--h1-font);
+    font-size: 2em;
+    font-weight: normal;
+}
+
+nav {
+    height: 59px;
+    position: fixed;
+    width: 100%;
+    background-color: var(--theme-color);
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.title {
+    margin: 0;
+    padding: 0.285em 1em;
+    color: var(--theme-background);
+    font-family: var(--h1-font);
+    display: inline-block;
+    font-size: 2em;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.title:hover {
+    color: #bbb;
+}
+
+main {
+    margin: auto;
+    margin-top: 70px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+section {
+    width: 100%;
+    max-width: 73%;
+    display: block;
+    float: left;
+    margin: 2em 0;
+}
+
+section:first-child {
+    margin-top: 0;
+}
+
+aside {
+    float: right;
+    background-color: #fff;
+    width: 23%;
+    max-width: 23%;
+    text-align: center;
+    margin: 1.5em 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+aside:last-child {
+    padding-bottom: 2%;
+}
+
+article {
+    background-color: #fff;
+    padding: 1em;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    margin: 1.5em 0;
+    transition: 0.2s;
+    transition-timing-function: ease-in-out;
+    cursor: pointer;
+}
+
+article > h1 {
+    margin: 0.5em auto;
+}
+
+article.independent:hover {
+    cursor: initial;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.independent > h1 {
+    font-size: 3em;
+    margin-bottom: 0.3em;
+}
+.independent > h2 {
+    margin: 0.3em auto;
+    font-size: 1.5em;
+}
+
+article:hover {
+    box-shadow: 0 3px 6px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.24);
+}
+
+.tags {
+    font-size: 0.85em;
+    color: #333;
+}
+
+.back-button {
+    color: #333;
+    font-style: italic;
+    text-decoration: none;
+    font-size: 0.9em;
+    font-weight: lighter;
+    transition: 0.2s;
+    padding: 15px 20px;
+}
+
+.back-button:hover {
+    color: #555;
+    background-color: rgba(0,0,0,0.12);
+}
+
+@media screen and (max-width: 1250px) {
+
+    section {
+        max-width: 92%;
+        margin: 0 4%;
+    }
+
+    aside {
+        display: none;
+    }
+
+}
