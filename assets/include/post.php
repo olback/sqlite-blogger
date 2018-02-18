@@ -1,46 +1,74 @@
-<article class="independent">
-    <?php
+<?php
 
-        if(!empty($path[2])) {
+    if(count(get_included_files()) == 1){
+        header('Location: /');
+        die();
+    }
 
-            $sql3 = new SQLite3('./blogger.db');
+    if(!empty($path[2])) {
 
-            $stmt = $sql3->prepare('SELECT * FROM Posts WHERE id=?');
-            $stmt->bindValue(SQLITE3_INTEGER, intval($path[2]));
-            $result = $stmt->execute();
+        $db = new SQLite3('./blogger.db');
 
-            while($row = $result->fetchArray()) {
-                
-                if($row['created'] == $row['modified']) {
-                    $dateText = 'Posted ' . date('Y-m-d H:i', substr($row['created'], 0, 10));
-                } else {
-                    $dateText = 'Posted: '.date('Y-m-d H:i', substr($row['created'], 0, 10)).'<br>Modified: '.date('Y-m-d H:i', substr($row['modified'], 0, 10));
-                }
+        $stmt = $db->prepare('SELECT * FROM Posts WHERE id=?');
+        $stmt->bindValue(1, intval($path[2]), SQLITE3_INTEGER);
+        $result = $stmt->execute();
 
-                echo '
+        $row = $result->fetchArray();
 
+        if($row) {
+
+            $tags = explode(',', $row['tags']);
+            $tagsHTML = '';
+
+            foreach($tags as &$tag) {
+                $tagsHTML .= '<a href="/search/'.trim($tag).'">'.trim($tag).'</a>, ';
+            }
+
+            unset($tag);
+            
+            if($row['created'] == $row['modified']) {
+                $dateText = 'Posted ' . date('Y-m-d H:i', substr($row['created'], 0, 10)).' by '.$row['author'];
+            } else {
+                $dateText = 'Posted: '.date('Y-m-d H:i', substr($row['created'], 0, 10)).' by '.$row['author'].'<br>Last edited: '.date('Y-m-d H:i', substr($row['modified'], 0, 10));
+            }
+
+            echo '
+                <article class="independent">
                     <h1>'.$row['title'].'</h1>
                     <h2>'.$row['teaser'].'</h2>
                     <p>'.$row['body'].'</p>
-                    <span class="tags">'.$row['tags'].'</span>
+                    <span class="tags">'.$tagsHTML.'</span>
                     <pre>'.$dateText.'</pre>
-                
-                ';
-
-            }
-
-            $stmt->close();
-            $sql3->close();
+                </article>
+            
+            ';
 
         } else {
 
             echo '
-                <h1>Ouch :(</h1>
-                <h2>Looks like that post doesn\'t exist.</h2>
+                <article class="independent">
+                    <h1>Ouch :(</h1>
+                    <h2>Looks like that post doesn\'t exist.</h2>
+                </article>
             ';
 
         }
-    ?>
-</article>
 
-<a href="javascript:window.history.back();" class="back-button">Go back</a>
+        $stmt->close();
+        $db->close();
+
+    } else {
+
+        echo '
+            <article class="independent">
+                <h1>Ouch :(</h1>
+                <h2>Looks like that post doesn\'t exist.</h2>
+            </article>
+        ';
+
+    }
+?>
+
+<div style="height:2em">
+    <a href="javascript:window.history.back();" class="back-button">Go back</a>
+</div>
