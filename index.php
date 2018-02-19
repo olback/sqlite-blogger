@@ -4,10 +4,17 @@
     session_name('SQLiteBlogger');
     session_start();
 
-    require_once('./config.php');
+    $config_file = './config.php';
+
+    if(file_exists($config_file)) {
+        require($config_file);
+    } else {
+        echo 'Please rename <code>sample-config.php</code> to <code>config.php</code>!';
+        die();
+    }
 
     if(!empty($_SERVER['PATH_INFO'])) {
-        $path = explode('/', $_SERVER['PATH_INFO']);
+        $GLOBALS['path'] = explode('/', $_SERVER['PATH_INFO']);
     }
 
     if(!empty($_GET['modal'])) {
@@ -24,23 +31,27 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
         <meta name="theme-color" content="#333" />
         <meta name="robotos" content="index, follow" />
-        <meta name="autor" content="<?php echo $author; ?>"/>
-        <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
-        <title><?php echo $name; ?></title>
+        <meta name="autor" content="<?php echo $GLOBALS['author']; ?>"/>
+        <link rel="stylesheet" type="text/css" href="/assets/css/main.min.css">
+        <script src="/assets/js/main.min.js"></script>
+        <title><?php echo $GLOBALS['site-name']; ?></title>
     </head>
     <body>
 
         <nav>
-            <a class="title" href="/"><?php echo $name; ?></a>
-            <?php if($_SESSION['username'] == $username) echo '<a href="/manage?logout=true" class="nav-item">Log out</a>'; ?>
-            <?php if(!empty($mainPage)) echo '<a href="https://'.$mainPage.'" class="nav-item">'.$mainPage.'</a>'; ?>
+            <a class="title" href="/"><?php echo $GLOBALS['site-name']; ?></a>
+            <?php if($_SESSION['username'] == $GLOBALS['username']) echo '<a href="/manage/logout" class="nav-item">Log out</a>'; ?>
         </nav>
 
         <main>
 
             <section>
                 <?php
-                    switch($path[1]) {
+                    switch($GLOBALS['path'][1]) {
+
+                        case 'new':
+                            header('Location: /manage/new');
+                            break;
 
                         case 'manage':
                             require(__DIR__.'/assets/include/manage.php');
@@ -74,9 +85,9 @@
 
                         $tags = [];
 
-                        $db = new SQLite3('./blogger.db');
+                        $db = new SQLite3($GLOBALS['dbFile']);
 
-                        $stmt = $db->prepare('SELECT tags FROM Posts');
+                        $stmt = $db->prepare('SELECT tags FROM Posts order by id ASC');
                         $result = $stmt->execute();
 
                         while($row = $result->fetchArray()) {
@@ -98,7 +109,7 @@
                                 echo '<a href="/search/'.$tag.'">'.$tag.'</a>, ';
                             }   
                         } else {
-                            echo 'No posts, no tags';
+                            echo 'No articles with tags';
                         }
 
                         $stmt->close();
@@ -108,36 +119,31 @@
 
                 </p>
                 <footer>
-                    <?php echo $author; ?> &copy; <?php echo date('Y'); ?><br>
-                    <?php if(!empty($twitter)) echo '<a href="https://twitter.com/'.$twitter.'">@'.$twitter.'</a>'; ?>
+                    <?php
+                        echo $GLOBALS['author']; ?> &copy; <?php echo date('Y');
+                        if(!empty($GLOBALS['website'])) echo '<br /><a href="https://'.$GLOBALS['website'].'">'.$GLOBALS['website'].'</a>';
+                        if(!empty($GLOBALS['twitter'])) echo '<br /> Tweet at me? <a href="https://twitter.com/'.$GLOBALS['twitter'].'">@'.$GLOBALS['twitter'].'</a>';
+                        if(!empty($GLOBALS['github'])) echo '<br/>'; if(!empty($GLOBALS['github'])) echo '<a href="https://github.com/'.$GLOBALS['github'].'">Follow me on GitHub</a>';
+                    ?>
                 </footer>
             </aside>
 
         </main>
 
         <footer class="max-1250px">
-            <?php echo $author; ?> &copy; <?php echo date('Y'); ?>
+            <?php
+                echo $GLOBALS['author']; ?> &copy; <?php echo date('Y').'<br />';
+                if(!empty($GLOBALS['website'])) echo '<a href="https://'.$GLOBALS['website'].'">'.$GLOBALS['website'].'</a> ';
+                if(!empty($GLOBALS['twitter'])) echo '<a href="https://twitter.com/'.$GLOBALS['twitter'].'">@'.$GLOBALS['twitter'].'</a>';
+                if(!empty($GLOBALS['twitter']) || !empty($GLOBALS['website'])) echo '<br />';
+                if(!empty($GLOBALS['github'])) echo '<a href="https://github.com/'.$GLOBALS['github'].'">Follow me on GitHub</a>';
+            ?>
         </footer>
 
         <div id="modal" style="<?php if(!empty($modal)) echo 'display: block;'; ?>">
             <h1><?php if(!empty($modal)) echo $modal; ?></h1>
             <button id="close-modal">OK</button>
         </div>
-
-        <script>
-            const searchBox = document.getElementById('search');
-            document.getElementById('search-submit').onclick = () => {
-                if(typeof(searchBox.value) == 'string' && searchBox.value !== '') {
-                    window.location = window.location.origin + '/search/' + searchBox.value;
-                } else {
-                    document.getElementById('search-error').style.display = 'inline-block';
-                }
-            }
-            document.getElementById('close-modal').onclick = () => {
-                document.getElementById('modal').style.display = 'none';
-            }
-
-        </script>
 
     </body>
 </html>

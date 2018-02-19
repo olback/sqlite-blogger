@@ -12,9 +12,9 @@
         die();
     }
 
-    if($_SESSION['username'] == $username) {
+    if($_SESSION['username'] == $GLOBALS['username']) {
 
-        switch($path[2]) {
+        switch($GLOBALS['path'][2]) {
             case 'edit':
                 require('manage/edit.php');
                 break;
@@ -27,6 +27,13 @@
                 require('manage/delete.php');
                 break;
 
+            case 'logout':
+                $_SESSION = array();
+                session_destroy();
+                header('Location: /?modal=Logged out');
+                die();
+                break; // Unnecessary?
+
             default:
                 header('Location: /manage/new');
                 break;
@@ -38,7 +45,5 @@
         require('manage/login.php');
 
     }
-
-    
 
 ?>

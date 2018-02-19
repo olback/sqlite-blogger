@@ -7,7 +7,7 @@
 
     require('./config.php');
 
-    if($_SESSION['username'] != $username) {
+    if($_SESSION['username'] != $GLOBALS['username']) {
         header('Location: /');
         die();
     }
@@ -16,13 +16,19 @@
 
         $now = time();
 
-        $db = new SQLite3('./blogger.db');
+        if(!empty(trim($_POST['teaser']))) {
+            $teaser = $_POST['teaser'];
+        } else {
+            $teaser = substr($_POST['body'], 0, 100).'...';
+        }
+
+        $db = new SQLite3($GLOBALS['dbFile']);
         $stmt = $db->prepare('INSERT INTO Posts (title, teaser, body, tags, author ,modified, created) VALUES (?, ?, ?, ?, ?, ?, ?)');
-        $stmt->bindValue(1, $_POST['title'], SQLITE3_TEXT);
-        $stmt->bindValue(2, $_POST['teaser'], SQLITE3_TEXT);
-        $stmt->bindValue(3, $_POST['body'], SQLITE3_TEXT);
-        $stmt->bindValue(4, $_POST['tags'], SQLITE3_TEXT);
-        $stmt->bindValue(5, $author, SQLITE3_TEXT);
+        $stmt->bindValue(1, trim($_POST['title']), SQLITE3_TEXT);
+        $stmt->bindValue(2, $teaser, SQLITE3_TEXT);
+        $stmt->bindValue(3, trim($_POST['body']), SQLITE3_TEXT);
+        $stmt->bindValue(4, trim($_POST['tags']), SQLITE3_TEXT);
+        $stmt->bindValue(5, $GLOBALS['author'], SQLITE3_TEXT);
         $stmt->bindValue(6, $now, SQLITE3_INTEGER);
         $stmt->bindValue(7, $now, SQLITE3_INTEGER);
 
@@ -41,46 +47,18 @@
 
     }
 
-    
-
 ?>
 
 <article class="independent">
+    <h1 style="width: 87%">New blog post</h1>
     <form method="post" id="new-post">
-        <h1>New blog post</h1>
         <input type="text" name="title" placeholder="Title" required="required" />
-        <input type="text" name="teaser" placeholder="Teaser" required="required" />
+        <input type="text" name="teaser" placeholder="Teaser (optional)" />
         <textarea name="body" placeholder="Body" required="required"></textarea>
-        <input type="text" name="tags" placeholder="Tags, comma separated"/>
+        <input type="text" name="tags" placeholder="Tags, comma separated, (optional)" />
         <p id="form-validation"></p>
         <input type="submit" value="Post" />
     </form>
 </article>
 
-<script>
-
-    const title = document.getElementsByName('title')[0];
-    const teaser = document.getElementsByName('teaser')[0];
-    const body = document.getElementsByName('body')[0];
-    const message = document.getElementById('form-validation');
-
-    document.forms['new-post'].addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        if(title.value.trim() == '') {
-            message.innerHTML = 'Title may not be empty';
-        } else if(teaser.value.trim() == '') {
-            message.innerHTML = 'Teaser may not be empty';
-        } else if(body.value.trim() == '') {
-            message.innerHTML = 'Body may not be empty';
-        } else {
-            e.path[0].submit();
-        }
-
-
-
-    })
-
-
-
-</script>
+<script src="/assets/js/form.js"></script>

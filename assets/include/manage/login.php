@@ -6,12 +6,10 @@
     }
 
     $_SESSION['username'] = NULL;
-
-    require('./config.php');
     
     if(!empty($_POST['username']) && !empty($_POST['password'])) {
-        if($_POST['username'] == $username && $_POST['password'] == $password) {
-            $_SESSION['username'] = $username;
+        if($_POST['username'] == $GLOBALS['username'] && $_POST['password'] == $GLOBALS['password']) {
+            $_SESSION['username'] = $GLOBALS['username'];
             header('Location: /manage/new');
             die();
         } else {

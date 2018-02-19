@@ -5,12 +5,12 @@
         die();
     }
 
-    if(!empty($path[2])) {
+    if(!empty($GLOBALS['path'][2])) {
 
-        $db = new SQLite3('./blogger.db');
+        $db = new SQLite3($GLOBALS['dbFile']);
 
         $stmt = $db->prepare('SELECT * FROM Posts WHERE id=?');
-        $stmt->bindValue(1, intval($path[2]), SQLITE3_INTEGER);
+        $stmt->bindValue(1, intval($GLOBALS['path'][2]), SQLITE3_INTEGER);
         $result = $stmt->execute();
 
         $row = $result->fetchArray();
@@ -18,10 +18,13 @@
         if($row) {
 
             $tags = explode(',', $row['tags']);
+            $tags = array_filter($tags);
             $tagsHTML = '';
 
-            foreach($tags as &$tag) {
-                $tagsHTML .= '<a href="/search/'.trim($tag).'">'.trim($tag).'</a>, ';
+            if($tags) {
+                foreach($tags as &$tag) {
+                    $tagsHTML .= '<a href="/search/'.trim($tag).'">'.trim($tag).'</a>, ';
+                }
             }
 
             unset($tag);
@@ -69,6 +72,7 @@
     }
 ?>
 
-<div style="height:2em">
-    <a href="javascript:window.history.back();" class="back-button">Go back</a>
+<div class="post-buttons">
+    <a href="javascript:window.history.back();" class="button">Go back</a>
+    <?php if($_SESSION['username'] == $GLOBALS['username']) echo '<a class="button" style="float:right;" href="/manage/edit/'.$GLOBALS['path'][2].'">Edit</a>'; ?>
 </div>
