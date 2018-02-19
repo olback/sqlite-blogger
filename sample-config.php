@@ -10,7 +10,7 @@
      */
 
     $GLOBALS['author'] = ''; // Will be shown before the © sign.
-    $GLOBALS['site-name'] = 'SQLite Blogger'; // Title and nav
+    $GLOBALS['site-name'] = ''; // Title and nav
 
     // Don't have a Twitter account, GitHub account or a website you want to link to? Just leave them blank.
     $GLOBALS['website'] = '';
