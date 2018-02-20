@@ -6,12 +6,12 @@
 
     $config_file = './config.php';
 
-    if(file_exists($config_file)) {
-        require($config_file);
-    } else {
+    if(!file_exists($config_file)) {
         echo 'Please rename <code>sample-config.php</code> to <code>config.php</code>!';
         die();
     }
+
+    require($config_file);
 
     if(!empty($_SERVER['PATH_INFO'])) {
         $GLOBALS['path'] = explode('/', $_SERVER['PATH_INFO']);
@@ -120,7 +120,7 @@
                 </p>
                 <footer>
                     <?php
-                        echo $GLOBALS['author']; ?> &copy; <?php echo date('Y');
+                        echo $GLOBALS['author']; echo ' &copy; '.date('Y');
                         if(!empty($GLOBALS['website'])) echo '<br /><a href="https://'.$GLOBALS['website'].'">'.$GLOBALS['website'].'</a>';
                         if(!empty($GLOBALS['twitter'])) echo '<br /> Tweet at me? <a href="https://twitter.com/'.$GLOBALS['twitter'].'">@'.$GLOBALS['twitter'].'</a>';
                         if(!empty($GLOBALS['github'])) echo '<br/>'; if(!empty($GLOBALS['github'])) echo '<a href="https://github.com/'.$GLOBALS['github'].'">Follow me on GitHub</a>';
@@ -132,7 +132,7 @@
 
         <footer class="max-1250px">
             <?php
-                echo $GLOBALS['author']; ?> &copy; <?php echo date('Y').'<br />';
+                echo $GLOBALS['author']; echo ' &copy; '.date('Y').'<br />';
                 if(!empty($GLOBALS['website'])) echo '<a href="https://'.$GLOBALS['website'].'">'.$GLOBALS['website'].'</a> ';
                 if(!empty($GLOBALS['twitter'])) echo '<a href="https://twitter.com/'.$GLOBALS['twitter'].'">@'.$GLOBALS['twitter'].'</a>';
                 if(!empty($GLOBALS['twitter']) || !empty($GLOBALS['website'])) echo '<br />';
