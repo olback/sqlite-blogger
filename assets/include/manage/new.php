@@ -16,18 +16,12 @@
 
         $now = time();
 
-        if(!empty(trim($_POST['teaser']))) {
-            $teaser = $_POST['teaser'];
-        } else {
-            $teaser = substr($_POST['body'], 0, 100).'...';
-        }
-
         $db = new SQLite3($GLOBALS['dbFile']);
         $stmt = $db->prepare('INSERT INTO Posts (title, teaser, body, tags, author ,modified, created) VALUES (?, ?, ?, ?, ?, ?, ?)');
-        $stmt->bindValue(1, trim($_POST['title']), SQLITE3_TEXT);
-        $stmt->bindValue(2, $teaser, SQLITE3_TEXT);
+        $stmt->bindValue(1, htmlspecialchars(trim($_POST['title'])), SQLITE3_TEXT);
+        $stmt->bindValue(2, htmlspecialchars(trim($_POST['teaser'])), SQLITE3_TEXT);
         $stmt->bindValue(3, trim($_POST['body']), SQLITE3_TEXT);
-        $stmt->bindValue(4, trim($_POST['tags']), SQLITE3_TEXT);
+        $stmt->bindValue(4, htmlspecialchars(trim($_POST['tags'])), SQLITE3_TEXT);
         $stmt->bindValue(5, $GLOBALS['author'], SQLITE3_TEXT);
         $stmt->bindValue(6, $now, SQLITE3_INTEGER);
         $stmt->bindValue(7, $now, SQLITE3_INTEGER);

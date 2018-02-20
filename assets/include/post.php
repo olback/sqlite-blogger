@@ -40,6 +40,7 @@
                     <h1>'.$row['title'].'</h1>
                     <h2>'.$row['teaser'].'</h2>
                     <p>'.$row['body'].'</p>
+                    <hr />
                     <span class="tags">'.$tagsHTML.'</span>
                     <pre>'.$dateText.'</pre>
                 </article>

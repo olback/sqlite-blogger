@@ -24,11 +24,10 @@
         
         $db = new SQLite3($GLOBALS['dbFile']);
         $stmt = $db->prepare('UPDATE Posts SET title=?, teaser=?, body=?, tags=?, modified=? WHERE id=?');
-
-        $stmt->bindValue(1, trim($_POST['title']), SQLITE3_TEXT);
-        $stmt->bindValue(2, $teaser, SQLITE3_TEXT);
+        $stmt->bindValue(1, htmlspecialchars(trim($_POST['title'])), SQLITE3_TEXT);
+        $stmt->bindValue(2, htmlspecialchars(trim($_POST['teaser'])), SQLITE3_TEXT);
         $stmt->bindValue(3, trim($_POST['body']), SQLITE3_TEXT);
-        $stmt->bindValue(4, trim($_POST['tags']), SQLITE3_TEXT);
+        $stmt->bindValue(4, htmlspecialchars(trim($_POST['tags'])), SQLITE3_TEXT);
         $stmt->bindValue(5, $now, SQLITE3_INTEGER);
         $stmt->bindValue(6, $article, SQLITE3_INTEGER);
 
