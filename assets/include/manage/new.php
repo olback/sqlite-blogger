@@ -32,10 +32,10 @@
         $db->close();
 
         if($result) {
-            header('Location: /manage/new?modal=Article posted');
+            header('Location: /manage/new/?modal=Article posted');
             die();
         } else {
-            header('Location: /manage/new?modal=Failed to post article');
+            header('Location: /manage/new/?modal=Failed to post article');
             die();
         }
 
