@@ -263,6 +263,7 @@ body > footer {
 
 #no-posts {
     display: none;
+    z-index: 100;
 }
 
 #no-posts > a {

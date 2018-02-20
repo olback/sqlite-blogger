@@ -4,7 +4,7 @@
  */
 
 const articles = document.getElementsByTagName('article');
-if(articles) {
+if(articles.length > 0) {
     for(let article of articles) {
         let id = article.getAttribute('post-id');
         article.onclick = () => {
@@ -12,5 +12,5 @@ if(articles) {
         }
     }
 } else {
-    document.getElementById('no-posts').style.display = 'block;'
+    document.getElementById('no-posts').style.display = 'block';
 }
