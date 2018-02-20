@@ -23,4 +23,7 @@
     // Path to db file - Don't change unless you know what you're doing!
     $GLOBALS['dbFile'] = './blogger.db';
 
+    // Git Url to pull updates from.
+    $GLOBALS['git-url'] = 'https://github.com/olback/sqlite-blogger.git';
+
 ?>
