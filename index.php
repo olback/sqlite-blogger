@@ -24,15 +24,16 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?php echo $GLOBALS['lang']; ?>">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
         <meta name="theme-color" content="#333" />
         <meta name="robotos" content="index, follow" />
-        <meta name="autor" content="<?php echo $GLOBALS['author']; ?>"/>
-        <link rel="stylesheet" type="text/css" href="/assets/css/main.min.css">
+        <meta name="autor" content="<?php echo $GLOBALS['author']; ?>" />
+        <meta name="owner" content="<?php echo $GLOBALS['author']; ?>" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <link rel="stylesheet" type="text/css" href="/assets/css/main.min.css" />
         <script src="/assets/js/main.min.js"></script>
         <title><?php echo $GLOBALS['site-name']; ?></title>
     </head>
@@ -87,7 +88,7 @@
 
                         $db = new SQLite3($GLOBALS['dbFile']);
 
-                        $stmt = $db->prepare('SELECT tags FROM Posts order by id ASC');
+                        $stmt = $db->prepare('SELECT tags FROM Posts ORDER BY id DESC');
                         $result = $stmt->execute();
 
                         while($row = $result->fetchArray()) {

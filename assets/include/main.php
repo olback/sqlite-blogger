@@ -9,7 +9,7 @@
 
         $db = new SQLite3($GLOBALS['dbFile']);
 
-        $stmt = $db->prepare('SELECT * FROM Posts');
+        $stmt = $db->prepare('SELECT * FROM Posts ORDER BY id DESC');
         $result = $stmt->execute();
 
         while($row = $result->fetchArray()) {

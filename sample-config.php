@@ -11,6 +11,7 @@
 
     $GLOBALS['author'] = ''; // Will be shown before the © sign.
     $GLOBALS['site-name'] = ''; // Title and nav
+    $BLOBALS['lang'] = 'en'; // String used in <html lang="?">
 
     // Don't have a Twitter account, GitHub account or a website you want to link to? Just leave them blank.
     $GLOBALS['website'] = '';
