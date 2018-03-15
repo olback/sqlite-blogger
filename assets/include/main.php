@@ -15,10 +15,10 @@
         while($row = $result->fetchArray()) {
 
             echo '
-                <article post-id="'.$row['id'].'">
-                    <h1>'.$row['title'].'</h1>
+                <article data-id="'.$row['id'].'">
+                    <h2>'.$row['title'].'</h2>
                     <p>'.$row['teaser'].'</p>
-                    <span class="tags">'.$row['tags'].'</span>
+                    <span class="tags">'.str_replace('+', ' ', $row['tags']).'</span>
                     <pre>Posted: '.date('Y-m-d H:i', substr($row['created'], 0, 10)).' by '.$row['author'].'</pre>
                 </article>
             ';

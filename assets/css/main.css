@@ -209,7 +209,7 @@ article {
     cursor: pointer;
 }
 
-article>h1 {
+article>h2 {
     margin: 0.5em auto;
     color: var(--theme-color);
 }
@@ -223,12 +223,12 @@ article.independent:hover {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 
-.independent>h1 {
+.independent>h2 {
     font-size: 3em;
     margin-bottom: 0.3em;
 }
 
-.independent>h2 {
+.independent>h3 {
     margin: 0.3em auto;
     font-size: 1.5em;
 }

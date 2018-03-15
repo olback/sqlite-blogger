@@ -23,7 +23,7 @@
 
             if($tags) {
                 foreach($tags as &$tag) {
-                    $tagsHTML .= '<a href="/search/'.trim($tag).'">'.trim($tag).'</a>, ';
+                    $tagsHTML .= '<a href="/search/'.trim($tag).'">'.trim(str_replace('+', ' ', $tag)).'</a>, ';
                 }
             }
 
@@ -37,8 +37,8 @@
 
             echo '
                 <article class="independent">
-                    <h1>'.$row['title'].'</h1>
-                    <h2>'.$row['teaser'].'</h2>
+                    <h2>'.$row['title'].'</h2>
+                    <h3>'.$row['teaser'].'</h3>
                     <p>'.$row['body'].'</p>
                     <hr />
                     <span class="tags">'.$tagsHTML.'</span>

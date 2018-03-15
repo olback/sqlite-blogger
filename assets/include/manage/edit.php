@@ -27,7 +27,7 @@
         $stmt->bindValue(1, htmlspecialchars(trim($_POST['title'])), SQLITE3_TEXT);
         $stmt->bindValue(2, htmlspecialchars(trim($_POST['teaser'])), SQLITE3_TEXT);
         $stmt->bindValue(3, trim($_POST['body']), SQLITE3_TEXT);
-        $stmt->bindValue(4, htmlspecialchars(trim($_POST['tags'])), SQLITE3_TEXT);
+        $stmt->bindValue(4, htmlspecialchars(urlencode(trim($_POST['tags']))), SQLITE3_TEXT);
         $stmt->bindValue(5, $now, SQLITE3_INTEGER);
         $stmt->bindValue(6, $article, SQLITE3_INTEGER);
 
@@ -64,12 +64,12 @@
 
             echo '
                 <article class="independent">
-                    <h1 style="width: 87%">Edit article</h1>
+                    <h2 style="width: 87%">Edit article</h2>
                     <form method="post" id="new-post">
                         <input type="text" name="title" placeholder="Title" required="required" value="'.$row['title'].'" />
                         <input type="text" name="teaser" placeholder="Teaser (optional)" value="'.$row['teaser'].'" />
                         <textarea name="body" placeholder="Body" required="required">'.$row['body'].'</textarea>
-                        <input type="text" name="tags" placeholder="Tags, comma separated, (optional)" value="'.$row['tags'].'" />
+                        <input type="text" name="tags" placeholder="Tags, comma separated, (optional)" value="'.str_replace('+', ' ', $row['tags']).'" />
                         <p id="form-validation"></p>
                         <div class="edit-buttons">
                             <a class="button tomato" href="/manage/delete/'.$article.'">Delete article</a>

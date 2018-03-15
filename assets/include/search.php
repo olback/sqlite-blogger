@@ -1,4 +1,4 @@
-<h1>Search results for '<?php echo $GLOBALS['path'][2]; ?>':</h1>
+<h1>Search results for '<?php echo str_replace('+', ' ', $GLOBALS['path'][2]); ?>':</h1>
 
 <?php
 
@@ -21,10 +21,10 @@
         while($row = $result->fetchArray()) {
 
             echo '
-                <article post-id="'.$row['id'].'">
+                <article data-id="'.$row['id'].'">
                     <h1>'.$row['title'].'</h1>
                     <p>'.$row['teaser'].'</p>
-                    <span class="tags">'.$row['tags'].'</span>
+                    <span class="tags">'.str_replace('+', ' ', $row['tags']).'</span>
                     <pre>Posted: '.date('Y-m-d H:i', substr($row['created'], 0, 10)).'</pre>
                 </article>
             ';

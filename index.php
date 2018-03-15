@@ -107,7 +107,7 @@
 
                         if(count($tags) > 0) {
                             foreach($tags as $tag) {
-                                echo '<a href="/search/'.$tag.'">'.$tag.'</a>, ';
+                                echo '<a href="/search/'.$tag.'">'.str_replace('+', ' ', $tag).'</a>, ';
                             }   
                         } else {
                             echo 'No articles with tags';
@@ -142,7 +142,7 @@
         </footer>
 
         <div id="modal" style="<?php if(!empty($modal)) echo 'display: block;'; ?>">
-            <h1><?php if(!empty($modal)) echo $modal; ?></h1>
+            <h2><?php if(!empty($modal)) echo $modal; ?>.</h2>
             <button id="close-modal">OK</button>
         </div>
 
