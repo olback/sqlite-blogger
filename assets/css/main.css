@@ -391,6 +391,38 @@ hr {
     border-width: 0.1px;
 }
 
+table {
+    border: 1px solid #ddd;
+    width: 100%;
+}
+
+tr:first-of-type:hover {
+    background-color: #ddd !important;
+    color: #000 !important;
+}
+
+table, th, td {
+    border-collapse: collapse;
+}
+
+tr {
+    background-color: #fff;
+}
+
+th, td {
+    padding: 1em;
+    border: none;
+}
+
+tr:nth-last-of-type(even) {
+    background-color: #ddd;
+}
+
+tr:hover {
+    background-color: rgba(31, 31, 31, 0.5);
+    color: #fff;
+}
+
 @media screen and (max-width: 1250px) {
     section {
         max-width: 92%;
